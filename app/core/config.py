@@ -1,7 +1,11 @@
 from functools import lru_cache
 from typing import List
 
+import os
+
 from pydantic import BaseSettings
+
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) + "/../.."
 
 class APISettings(BaseSettings):
 
@@ -17,6 +21,13 @@ class APISettings(BaseSettings):
 
 
     backend_cors_origins_str: str = ""  # Should be a comma-separated list of origins
+    
+    
+    ####################     Path for data, models, ...     ########################
+    
+    data_csv: str = ROOT_DIR + "/data/EuroMillions_numbers.csv"
+    model_file: str = ROOT_DIR + "/models/model.sav"
+    
 
     @property
     def backend_cors_origins(self) -> List[str]:
