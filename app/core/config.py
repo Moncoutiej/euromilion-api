@@ -5,11 +5,9 @@ import os
 
 from pydantic import BaseSettings
 
-ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) + "/../.."
-
 class APISettings(BaseSettings):
 
-    title = "euromilion-api"
+    title = "euromillion-api"
     contacts = "moncoutiej@cy-tech.fr, urgellbapt@cy-tech.fr"
 
     docs_url = "/docs"
@@ -20,13 +18,15 @@ class APISettings(BaseSettings):
     api_model_route: str = "/api/model"
 
 
+    ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) + "/.."
+
     backend_cors_origins_str: str = ""  # Should be a comma-separated list of origins
     
     
     ####################     Path for data, models, ...     ########################
     
     data_csv: str = ROOT_DIR + "/data/EuroMillions_numbers.csv"
-    model_file: str = ROOT_DIR + "/models/model.sav"
+    model_file: str = ROOT_DIR + "/models/model.pkl"
     
 
     @property
