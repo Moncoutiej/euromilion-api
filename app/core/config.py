@@ -7,27 +7,31 @@ from pydantic import BaseSettings
 
 class APISettings(BaseSettings):
 
+    ########################     Global information    ########################
+    
     title: str = "euromillion-api"
     contacts: str = "moncoutiej@cy-tech.fr, urgellbapt@cy-tech.fr"
 
     docs_url: str = "/docs"
     redoc_url: str = "/redoc"
     
+    ROOT_DIR: str = os.path.dirname(os.path.abspath(__file__)) + "/.."
     
+    ########################     Routes    ########################
+
     api_predict_route: str = "/api/predict"
     api_model_route: str = "/api/model"
 
-
-    ROOT_DIR: str = os.path.dirname(os.path.abspath(__file__)) + "/.."
-
-    backend_cors_origins_str: str = ""  # Should be a comma-separated list of origins
     
-    
-    ####################     Path for data, models, ...     ########################
+    ########################     Path for data, models, ...     ########################
     
     data_csv: str = ROOT_DIR + "/data/EuroMillions_numbers.csv"
     model_file: str = ROOT_DIR + "/models/model.pkl"
-    
+
+
+    ########################     Other params     ########################
+
+    backend_cors_origins_str: str = ""  # Should be a comma-separated list of origins
 
     @property
     def backend_cors_origins(self) -> List[str]:
