@@ -33,7 +33,7 @@ class DataLine(BaseModel):
     """Line Data Object with the appropriate dataset format
     """
     date: str = Field(
-        ..., title="Date of the draw, Format : YYYY-MM-DD", max_length=10
+        None, title="Date of the draw, Format : YYYY-MM-DD", max_length=10
     )
     n1: int = Field(
         ..., title="The first number of the draw", gt=0, lt=51

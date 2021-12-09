@@ -7,18 +7,18 @@ from pydantic import BaseSettings
 
 class APISettings(BaseSettings):
 
-    title = "euromillion-api"
-    contacts = "moncoutiej@cy-tech.fr, urgellbapt@cy-tech.fr"
+    title: str = "euromillion-api"
+    contacts: str = "moncoutiej@cy-tech.fr, urgellbapt@cy-tech.fr"
 
-    docs_url = "/docs"
-    redoc_url = "/redoc"
+    docs_url: str = "/docs"
+    redoc_url: str = "/redoc"
     
     
     api_predict_route: str = "/api/predict"
     api_model_route: str = "/api/model"
 
 
-    ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) + "/.."
+    ROOT_DIR: str = os.path.dirname(os.path.abspath(__file__)) + "/.."
 
     backend_cors_origins_str: str = ""  # Should be a comma-separated list of origins
     

@@ -70,7 +70,8 @@ async def retrain_model() -> ResponseJson:
     """
     try:
         model = pickle.load(open(MODEL_FILE, "rb"))
-        await launch_model_fitting(model)
+        model = await launch_model_fitting(model)
+        pickle.dump(model, open(MODEL_FILE, "wb"))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Unexpected Error while model fitting : {e}")
+        raise HTTPException(status_code=500, detail=f"Unexpected Error during the model retraining : {e}")
     return {"message": "The retraining of the model was done successfully !", "status_code": 200}

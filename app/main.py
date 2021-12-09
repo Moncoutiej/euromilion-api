@@ -8,8 +8,6 @@
 #                                                                             #
 ###############################################################################
 
-                                                              
-                                                              
 from typing import Dict
 from fastapi import FastAPI
 from app.core.config import get_api_settings
