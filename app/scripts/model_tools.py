@@ -1,7 +1,7 @@
 from app.core.config import get_api_settings
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
-import os, csv, json
+import csv, json
 import pandas as pd
 import numpy as np
 from app.scripts.general_tools import change2bool, change2count

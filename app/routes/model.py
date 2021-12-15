@@ -4,6 +4,7 @@ from fastapi import HTTPException
 from app.core.config import get_api_settings
 from app.classes.models import MLModel, DataLine, ResponseJson
 from app.scripts.model_tools import get_metrics, add_data_to_dataset, launch_model_fitting
+from app.scripts.general_tools import verify_user_data
 
 import pickle
 
@@ -45,11 +46,17 @@ async def add_new_data(data: DataLine) -> ResponseJson:
         data (DataLine): The inputs given by user
 
     Raises:
+        HTTPException: 400 status code if the user input is incorrect
         HTTPException: 500 status code if an error is raised during the process
 
     Returns:
         (ResponseJson): Information about the process
-    """
+    """        
+    
+    message = await verify_user_data(data)
+    if len(message) > 0:
+        raise HTTPException(status_code=400, detail=f"Error while adding data : {message}")
+    
     try:
         await add_data_to_dataset(data)
     except Exception as e:

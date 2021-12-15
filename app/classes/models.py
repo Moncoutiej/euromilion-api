@@ -1,6 +1,6 @@
 from typing import List, Optional
 from pydantic import BaseModel, Field    
-
+import datetime
 
 class DrawProba(BaseModel):
     """The Draw win and lose probabilities,  
@@ -33,7 +33,7 @@ class DataLine(BaseModel):
     """Line Data Object with the appropriate dataset format
     """
     date: str = Field(
-        None, title="Date of the draw, Format : YYYY-MM-DD", max_length=10
+        str(datetime.date.today()), title="Date of the draw, Format : YYYY-MM-DD", max_length=10
     )
     n1: int = Field(
         ..., title="The first number of the draw", gt=0, lt=51

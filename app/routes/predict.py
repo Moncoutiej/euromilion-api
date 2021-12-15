@@ -4,6 +4,7 @@ from fastapi import HTTPException
 from app.core.config import get_api_settings
 from app.classes.models import DataLine, DrawProba
 from app.scripts.predict_tools import model_prediction_on_data, generate_best_draw
+from app.scripts.general_tools import verify_user_data
 import pickle
 
 settings = get_api_settings()
@@ -17,11 +18,16 @@ async def predict_on_data(data: DataLine) -> DrawProba:
     """Launch a prediction on the giving data 
 
     Raises:
+        HTTPException: 400 status code if the user input is incorrect
         HTTPException: 500 status code if an error is raised during the process
 
     Returns:
         (DrawProba): The Draw win and lose probabilities
     """
+    message = await verify_user_data(data)
+    if len(message) > 0:
+        raise HTTPException(status_code=400, detail=f"Error while model prediction : {message}")
+    
     try:
         model = pickle.load(open(MODEL_FILE, "rb"))
         preds = await model_prediction_on_data(model, data)

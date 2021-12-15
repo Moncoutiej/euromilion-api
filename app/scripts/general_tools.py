@@ -1,5 +1,7 @@
+from app.classes.models import DataLine
 import pandas as pd
 import numpy as np
+import datetime
 
 async def change2bool(df:pd.DataFrame)->pd.DataFrame:
     """ Construct vectors of a draw for each date
@@ -61,3 +63,30 @@ async def change2count(df:pd.DataFrame)->pd.DataFrame:
     index = pd.MultiIndex.from_arrays([df["Date"],df.index],names=["Date","Index"])
     df_N_E_compteur = pd.DataFrame(arr_N_E_compteur, columns = columns, index = index)
     return df_N_E_compteur
+
+
+async def verify_user_data(data: DataLine) -> str:
+    """Verify the user input and returns an apropriate message if the given data is incorect
+
+    Args:
+        data (DataLine): The Data given in input
+
+    Returns:
+        str: The apropriate message given to user if the data is incorrect. returns "" if the input is correct 
+    """
+    message: str = ''
+    
+    draw_numbers = [data.n1, data.n2, data.n3, data.n4, data.n5]
+    draw_stars = [data.e1, data.e2]
+    
+    # If the draw numbers are non unic in the input
+    if len(draw_numbers) > len(set(draw_numbers)) or len(draw_stars) > len(set(draw_stars)) : 
+        message += 'The values given for this draw must be unical. '
+        
+    # If the draw numbers are non unic in the input
+    try:
+        datetime.datetime.strptime(data.date, '%Y-%m-%d')
+    except Exception:
+        message += 'Incorrect date, should be a valid YYYY-MM-DD'
+    
+    return message
