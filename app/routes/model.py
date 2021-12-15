@@ -29,7 +29,7 @@ async def get_model_info() -> MLModel:
         model = pickle.load(open(MODEL_FILE, "rb"))
         params = model.get_params(deep=True)
         res["model_name"] = model.__class__.__name__
-        res["metrics"] = await get_metrics(model)
+        res["metrics"] = await get_metrics()
         res["training_params"] = params
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Unexpected Error during the model loading : {e}")

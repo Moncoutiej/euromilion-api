@@ -61,3 +61,13 @@ async def change2count(df:pd.DataFrame)->pd.DataFrame:
     index = pd.MultiIndex.from_arrays([df["Date"],df.index],names=["Date","Index"])
     df_N_E_compteur = pd.DataFrame(arr_N_E_compteur, columns = columns, index = index)
     return df_N_E_compteur
+
+async def find_best_draw(draw_pred_prob:np.ndarray)->np.ndarray:
+    draw_pred_prob[:50] = np.divide(draw_pred_prob[:50],np.sum(draw_pred_prob[:50]))
+    draw_pred_prob[50:] = np.divide(draw_pred_prob[50:],np.sum(draw_pred_prob[50:]))
+    n_index =  np.argpartition(draw_pred_prob[:50], -5)[-5:]
+    e_index = np.argpartition(draw_pred_prob[50:], -2)[-2:]
+    index = np.array([*n_index,*e_index])
+    draw = index + 1
+    return draw
+    
