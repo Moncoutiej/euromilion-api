@@ -93,6 +93,14 @@ async def verify_user_data(data: DataLine) -> str:
 
 
 async def find_best_draw(draw_pred_prob:np.ndarray)->np.ndarray:
+    """ Find the best draw between all possible draw
+
+    Args:
+        draw_pred_prob (np.ndarray): array with the probability of each number to be drownd
+
+    Returns:
+        np.ndarray: draw with the best probability
+    """
     draw_pred_prob[:50] = np.divide(draw_pred_prob[:50],np.sum(draw_pred_prob[:50]))
     draw_pred_prob[50:] = np.divide(draw_pred_prob[50:],np.sum(draw_pred_prob[50:]))
     n_index =  np.argpartition(draw_pred_prob[:50], -5)[-5:]
