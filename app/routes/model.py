@@ -1,10 +1,12 @@
 from fastapi.routing import APIRouter
 from fastapi import HTTPException
 
+from sklearn.ensemble import RandomForestClassifier
 from app.core.config import get_api_settings
 from app.classes.models import MLModel, DataLine, ResponseJson
 from app.scripts.model_tools import get_metrics, add_data_to_dataset, launch_model_fitting
 from app.scripts.general_tools import verify_user_data
+import os
 
 import pickle
 
@@ -27,6 +29,8 @@ async def get_model_info() -> MLModel:
     """
     res = {}
     try:
+        if not os.path.exists(MODEL_FILE):
+            await train_model()
         model = pickle.load(open(MODEL_FILE, "rb"))
         params = model.get_params(deep=True)
         res["model_name"] = model.__class__.__name__
@@ -66,7 +70,7 @@ async def add_new_data(data: DataLine) -> ResponseJson:
 
 
 @ModelRouter.post(f"{API_MODEL_ROUTE}/retrain", response_model=ResponseJson)
-async def retrain_model() -> ResponseJson:
+async def train_model() -> ResponseJson:
     """Launch a new fitting of the model with the current dataset 
 
     Raises:
@@ -76,9 +80,10 @@ async def retrain_model() -> ResponseJson:
         (ResponseJson): Information about the process
     """
     try:
-        model = pickle.load(open(MODEL_FILE, "rb"))
+        model = RandomForestClassifier(random_state=0)
         model = await launch_model_fitting(model)
         pickle.dump(model, open(MODEL_FILE, "wb"))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Unexpected Error during the model retraining : {e}")
+        raise HTTPException(status_code=500, detail=f"Unexpected Error during the model training : {e}")
     return {"message": "The retraining of the model was done successfully !", "status_code": 200}
+
