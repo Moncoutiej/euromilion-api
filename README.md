@@ -31,6 +31,6 @@ Then, to visualize and test all the endpoints and the API routes available, go t
 ![swagger](./assets/swagger.png)
 
 
-You can also see a mode detailled documentation at [http://localhost:8000/redoc](http://localhost:8000/redoc) like :
+You can also see a more detailled documentation at [http://localhost:8000/redoc](http://localhost:8000/redoc) like :
 
 ![swagger](./assets/redoc.png)
